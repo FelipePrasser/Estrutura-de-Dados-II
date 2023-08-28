@@ -24,6 +24,7 @@ public class Arestas{
     public void setVertice2(Vertice vertice2) {
         this.vertice2 = vertice2;
     }
+
     
     @Override
     public String toString(){
@@ -31,4 +32,5 @@ public class Arestas{
         resposta = resposta + this.numAresta;
         return resposta;
     }
+
 }
