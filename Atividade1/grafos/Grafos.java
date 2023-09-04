@@ -27,11 +27,11 @@ public class Grafos{
 
 
     public int getOrdem(){
-        return(numVert);
+        return(lVertices.size());
     }
     
     public int getTamanho(){
-        return(numAresta);
+        return(lArestas.size());
     }
 
     public ArrayList<Vertice> vertices(){
@@ -98,7 +98,13 @@ public class Grafos{
     public Arestas getA(Vertice u, Vertice v){
         for (int i=0; i<lArestas.size(); i++){
             if((lArestas.get(i).getVertice1()==u || lArestas.get(i).getVertice1()==v) && (lArestas.get(i).getVertice2()==u || lArestas.get(i).getVertice2()==v)){
-                return lArestas.get(i);
+                if((u!=v)&&(lArestas.get(i).getVertice1()!=lArestas.get(i).getVertice2())){
+                    return lArestas.get(i);
+                }
+                System.out.println("oi");
+                if((u==v)&&(lArestas.get(i).getVertice1()==lArestas.get(i).getVertice2())){
+                    return lArestas.get(i);
+                }
             }
         }
         return null;
