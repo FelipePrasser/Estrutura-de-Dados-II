@@ -1,13 +1,13 @@
-package grafos;
+package grafo;
 
 import java.util.ArrayList;
 
-public class Grafos{
+public class Grafo{
     private ArrayList<Vertice> lVertices=new ArrayList<>(); 
-    private ArrayList<Arestas> lArestas=new ArrayList<>();
+    private ArrayList<Aresta> lArestas=new ArrayList<>();
     private int numVert=0, numAresta=0;
     
-    public Grafos() {
+    public Grafo() {
     }
 
     public ArrayList<Vertice> getlVertices() {
@@ -17,10 +17,10 @@ public class Grafos{
         this.lVertices = lVertices;
     }
 
-    public ArrayList<Arestas> getlArestas() {
+    public ArrayList<Aresta> getlArestas() {
         return lArestas;
     }
-    public void setlArestas(ArrayList<Arestas> lArestas) {
+    public void setlArestas(ArrayList<Aresta> lArestas) {
         this.lArestas = lArestas;
     }
 
@@ -38,7 +38,7 @@ public class Grafos{
         return lVertices;
     }
 
-    public ArrayList<Arestas> arestas(){
+    public ArrayList<Aresta> arestas(){
         return lArestas;
     }
 
@@ -68,13 +68,13 @@ public class Grafos{
 
     public void insereA(Vertice u, Vertice v){
         numAresta++;
-        Arestas a = new Arestas(numAresta, u, v);
+        Aresta a = new Aresta(numAresta, u, v);
         lArestas.add(a);
         u.setAresta(a);
         v.setAresta(a);
     }
 
-    public void removeA(Arestas e){
+    public void removeA(Aresta e){
         for (int i = 0; i < lArestas.size(); i++) {
             if (lArestas.get(i)==e || lArestas.get(i)==e) {
                     lArestas.remove(i);
@@ -95,7 +95,7 @@ public class Grafos{
         return lVertAdj;
     }
 
-    public Arestas getA(Vertice u, Vertice v){
+    public Aresta getA(Vertice u, Vertice v){
         for (int i=0; i<lArestas.size(); i++){
             if((lArestas.get(i).getVertice1()==u || lArestas.get(i).getVertice1()==v) && (lArestas.get(i).getVertice2()==u || lArestas.get(i).getVertice2()==v)){
                 if((u!=v)&&(lArestas.get(i).getVertice1()!=lArestas.get(i).getVertice2())){
@@ -124,7 +124,7 @@ public class Grafos{
         return numGrau;
     }
 
-    public ArrayList<Vertice> verticeA(Arestas e){
+    public ArrayList<Vertice> verticeA(Aresta e){
         ArrayList<Vertice> parDeVertices=new ArrayList<>();
         for (int i = 0; i < lArestas.size(); i++) {
             if(lArestas.get(i)==e){
@@ -135,7 +135,7 @@ public class Grafos{
         return parDeVertices;
     }
 
-    public Vertice oposto(Vertice v, Arestas e){
+    public Vertice oposto(Vertice v, Aresta e){
         ArrayList<Vertice> parDeVertices=verticeA(e);
         if(parDeVertices.get(0)==v){
             return parDeVertices.get(1);
@@ -143,5 +143,12 @@ public class Grafos{
             return parDeVertices.get(0);
         }
         
+    }
+
+    public ArrayList <Vertice> BuscaLargura(Grafo G, Vertice v){
+        ArrayList<Vertice> vetorPredecessores=new ArrayList<>();
+        while () {
+            
+        }
     }
 }

@@ -2,12 +2,12 @@ package main;
 
 import java.util.ArrayList;
 
-import grafos.Grafos;
-import grafos.Vertice;
+import grafo.Grafo;
+import grafo.Vertice;
 
 public class Main{
     public static void main(String[] args) {
-        Grafos grafo=new Grafos();
+        Grafo grafo=new Grafo();
         grafo.insereV();
         grafo.insereV();
         grafo.insereV();

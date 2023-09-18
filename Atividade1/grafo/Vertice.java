@@ -1,14 +1,14 @@
-package grafos;
+package grafo;
 
 import java.util.ArrayList;
 
 public class Vertice{
     private int numVert;
-    private ArrayList<Arestas> lAresta;
+    private ArrayList<Aresta> lAresta;
     
     public Vertice(int numVert) {
         this.numVert = numVert;
-        this.lAresta = new ArrayList<Arestas>();
+        this.lAresta = new ArrayList<Aresta>();
     }
 
     public int getNumVert() {
@@ -19,11 +19,11 @@ public class Vertice{
         this.numVert = numVert;
     }
 
-    public ArrayList<Arestas> getAresta() {
+    public ArrayList<Aresta> getAresta() {
         return lAresta;
     }
 
-    public void setAresta(Arestas aresta) {
+    public void setAresta(Aresta aresta) {
         this.lAresta.add(aresta);
     }
 

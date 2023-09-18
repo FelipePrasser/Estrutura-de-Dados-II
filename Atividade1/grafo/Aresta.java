@@ -1,9 +1,9 @@
-package grafos;
-public class Arestas{
+package grafo;
+public class Aresta{
     private Vertice vertice1, vertice2;
     private int numAresta;
 
-    public Arestas(int numAresta, Vertice vertice1, Vertice vertice2) {
+    public Aresta(int numAresta, Vertice vertice1, Vertice vertice2) {
         this.vertice1 = vertice1;
         this.vertice2 = vertice2;
         this.numAresta=numAresta;
