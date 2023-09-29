@@ -93,7 +93,11 @@ public class Grafo{
                 lVertAdj.add(lArestas.get(i).getVertice1());
             }
         }
-        return lVertAdj;
+        if(lVertAdj.size()==0){
+            return null;
+        }else{
+            return lVertAdj;
+        }
     }
 
     public Aresta getA(Vertice u, Vertice v){
@@ -196,13 +200,20 @@ public class Grafo{
         ArrayList <String> estadoVertice=new ArrayList<>();
 
         for (int i = 0; i < lVertices.size(); i++) {
-            if(lVertices.get(i)==v){
+            if(adj(lVertices.get(i))==null){
                 vetorPredecessor.put(v, null);
                 estadoVertice.add("v");
             }else{
-                estadoVertice.add("n_v");
+                if(lVertices.get(i)==v){
+                    vetorPredecessor.put(v, null);
+                    estadoVertice.add("v");
+                }else{
+                    estadoVertice.add("n_v");
+                }
             }
+            
         }
+        System.out.println(estadoVertice);
         buscaLargura(v, estadoVertice, vetorPredecessor);
         return vetorPredecessor;
         
@@ -211,12 +222,16 @@ public class Grafo{
     private void buscaLargura(Vertice v, ArrayList<String> estadoVertice, HashMap<Vertice, Vertice> vetorPredecessor){
         ArrayList<Vertice> lAdj=adj(v);
         int j=0;
+        System.out.println(lAdj);
         for(int i=0; i<lVertices.size(); i++){
-            if(lVertices.get(i)==lAdj.get(j) && estadoVertice.get(i).equals("n_v")){
-                vetorPredecessor.put(lAdj.get(j), v);
-                estadoVertice.set(i, "v");
-                buscaLargura(lAdj.get(j), estadoVertice, vetorPredecessor);
-                j++;
+            System.out.println(v);
+            if(estadoVertice.get(i).equals("n_v")){
+                if (lVertices.get(i)==lAdj.get(j)){
+                    vetorPredecessor.put(lAdj.get(j), v);
+                    estadoVertice.set(i, "v");
+                    buscaLargura(lAdj.get(j), estadoVertice, vetorPredecessor);
+                    j++;
+                }
             }
         }
     }
