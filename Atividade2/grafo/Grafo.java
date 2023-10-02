@@ -2,6 +2,8 @@ package grafo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Grafo{
     private ArrayList<Vertice> lVertices=new ArrayList<>(); 
@@ -150,70 +152,29 @@ public class Grafo{
         
     }
 
-    // public ArrayList <ArrayList<Vertice>> buscaLargura(Vertice v){
-    //     ArrayList<ArrayList <Vertice>> vetorPredecessores=new ArrayList<>();
-    //     ArrayList <Vertice> lVerticeEPredecessores=new ArrayList<>();
-    //     ArrayList<String> estadoVertice=new ArrayList<>();
-        
-    //     for(int j=0; j<lVertices.size(); j++) {
-    //         if(lVertices.get(j)==v){
-    //             estadoVertice.add("v");
-    //             lVerticeEPredecessores.add(v);
-    //             lVerticeEPredecessores.add(v);
-    //             System.out.println(lVerticeEPredecessores);
-    //             vetorPredecessores.add(new ArrayList<>());
-    //             vetorPredecessores.set(j, lVerticeEPredecessores);
-    //             System.out.println("oi");
-    //         }else{
-    //             estadoVertice.add("n");
-    //             vetorPredecessores.add(new ArrayList<>());
-    //         }
-    //         lVerticeEPredecessores.clear();
-    //     }
-    //     System.out.println(estadoVertice);
-    //     System.out.println("busca:"+vetorPredecessores);
-        
-    //     for (int i=0; i<lVertices.size(); i++){
-    //         ArrayList <Vertice> lAdj=adj(v);
-    //         for (int k = 0; k < estadoVertice.size(); k++) {
-    //             int j=0;
-    //             if(lAdj.get(j)==lVertices.get(i)){
-    //                 if (estadoVertice.get(k).equals("n")) {
-    //                     estadoVertice.set(i, "v");                  
-    //                     lVerticeEPredecessores.add(lAdj.get(j));
-    //                     lVerticeEPredecessores.add(v);
-    //                     vetorPredecessores.set(i, lVerticeEPredecessores);
-    //                     System.out.println("busca"+vetorPredecessores);
-    //                     lVerticeEPredecessores.clear();
-    //                     //buscaLargura(lAdj.get(j));
-    //                     j++;
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     System.out.println(estadoVertice);
-    //     return vetorPredecessores;
-    // }
-
     public HashMap<Vertice, Vertice> buscaLargura(Vertice v){
         HashMap<Vertice,Vertice> vetorPredecessor=new HashMap<>();
         ArrayList <String> estadoVertice=new ArrayList<>();
+        ArrayList <Vertice> lAux=lAdjGrafo(v);
 
         for (int i = 0; i < lVertices.size(); i++) {
-            if(adj(lVertices.get(i))==null){
-                vetorPredecessor.put(v, null);
-                estadoVertice.add("v");
-            }else{
-                if(lVertices.get(i)==v){
+            if(lVertices.get(i)==v){
                     vetorPredecessor.put(v, null);
                     estadoVertice.add("v");
-                }else{
+            }else{
+                if(lAux.contains(lVertices.get(i))){
                     estadoVertice.add("n_v");
+                }else{
+                    estadoVertice.add("n_e");
+                    vetorPredecessor.put(lVertices.get(i), null);
                 }
-            }
+            }                
+
             
         }
+
         System.out.println(estadoVertice);
+        System.out.println(vetorPredecessor);
         buscaLargura(v, estadoVertice, vetorPredecessor);
         return vetorPredecessor;
         
@@ -221,18 +182,46 @@ public class Grafo{
 
     private void buscaLargura(Vertice v, ArrayList<String> estadoVertice, HashMap<Vertice, Vertice> vetorPredecessor){
         ArrayList<Vertice> lAdj=adj(v);
-        int j=0;
         System.out.println(lAdj);
         for(int i=0; i<lVertices.size(); i++){
-            System.out.println(v);
-            if(estadoVertice.get(i).equals("n_v")){
+            System.out.println("o");
+            for (int j = 0; j < lAdj.size(); j++) {
+                if(estadoVertice.get(i)=="n_v"){
+                System.out.println("i");
                 if (lVertices.get(i)==lAdj.get(j)){
                     vetorPredecessor.put(lAdj.get(j), v);
                     estadoVertice.set(i, "v");
+                    System.out.println("ei");
                     buscaLargura(lAdj.get(j), estadoVertice, vetorPredecessor);
-                    j++;
                 }
+            }
             }
         }
     }
+
+    public ArrayList<Vertice> lAdjGrafo(Vertice v) {
+        ArrayList<Vertice> lAdj = new ArrayList<>();
+        ArrayList<Vertice> visitados = new ArrayList<>();
+        Queue<Vertice> fila = new LinkedList<>();
+
+        // Inicialize a busca a partir do vértice v
+        fila.add(v);
+        visitados.add(v);
+
+        while (!fila.isEmpty()) {
+            Vertice u = fila.poll();
+            lAdj.add(u);
+
+            ArrayList<Vertice> adjacentes = adj(u);
+            for (Vertice adjacente : adjacentes) {
+                if (!visitados.contains(adjacente)) {
+                    fila.add(adjacente);
+                    visitados.add(adjacente);
+                }
+            }
+        }
+
+        return lAdj;
+    }
+
 }
