@@ -144,11 +144,4 @@ public class Grafo{
         }
         
     }
-
-    public ArrayList <Vertice> BuscaLargura(Grafo G, Vertice v){
-        ArrayList<Vertice> vetorPredecessores=new ArrayList<>();
-        while () {
-            
-        }
-    }
 }
