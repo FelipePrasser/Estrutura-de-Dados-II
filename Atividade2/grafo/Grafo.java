@@ -108,7 +108,6 @@ public class Grafo{
                 if((u!=v)&&(lArestas.get(i).getVertice1()!=lArestas.get(i).getVertice2())){
                     return lArestas.get(i);
                 }
-                System.out.println("oi");
                 if((u==v)&&(lArestas.get(i).getVertice1()==lArestas.get(i).getVertice2())){
                     return lArestas.get(i);
                 }
@@ -168,13 +167,8 @@ public class Grafo{
                     estadoVertice.add("n_e");
                     vetorPredecessor.put(lVertices.get(i), null);
                 }
-            }                
-
-            
+            }                            
         }
-
-        System.out.println(estadoVertice);
-        System.out.println(vetorPredecessor);
         buscaLargura(v, estadoVertice, vetorPredecessor);
         return vetorPredecessor;
         
@@ -182,24 +176,20 @@ public class Grafo{
 
     private void buscaLargura(Vertice v, ArrayList<String> estadoVertice, HashMap<Vertice, Vertice> vetorPredecessor){
         ArrayList<Vertice> lAdj=adj(v);
-        System.out.println(lAdj);
         for(int i=0; i<lVertices.size(); i++){
-            System.out.println("o");
             for (int j = 0; j < lAdj.size(); j++) {
                 if(estadoVertice.get(i)=="n_v"){
-                System.out.println("i");
-                if (lVertices.get(i)==lAdj.get(j)){
-                    vetorPredecessor.put(lAdj.get(j), v);
-                    estadoVertice.set(i, "v");
-                    System.out.println("ei");
-                    buscaLargura(lAdj.get(j), estadoVertice, vetorPredecessor);
+                    if (lVertices.get(i)==lAdj.get(j)){
+                        vetorPredecessor.put(lAdj.get(j), v);
+                        estadoVertice.set(i, "v");
+                        buscaLargura(lAdj.get(j), estadoVertice, vetorPredecessor);
+                    }
                 }
-            }
             }
         }
     }
 
-    public ArrayList<Vertice> lAdjGrafo(Vertice v) {
+    private ArrayList<Vertice> lAdjGrafo(Vertice v) {
         ArrayList<Vertice> lAdj = new ArrayList<>();
         ArrayList<Vertice> visitados = new ArrayList<>();
         Queue<Vertice> fila = new LinkedList<>();
@@ -224,4 +214,55 @@ public class Grafo{
         return lAdj;
     }
 
+    public HashMap <Vertice, Vertice> buscaProfundidade(Vertice v){
+        HashMap<Vertice,Vertice> vetorPredecessor=new HashMap<>();
+        ArrayList <String> estadoVertice=new ArrayList<>();
+        ArrayList <Vertice> lAux=lAdjGrafo(v);
+
+        for (int i = 0; i < lVertices.size(); i++) {
+            if(lVertices.get(i)==v){
+                    vetorPredecessor.put(v, null);
+                    estadoVertice.add("v");
+            }else{
+                if(lAux.contains(lVertices.get(i))){
+                    estadoVertice.add("n_v");
+                }else{
+                    estadoVertice.add("n_e");
+                    vetorPredecessor.put(lVertices.get(i), null);
+                }
+            }      
+        }
+        buscaProfundidade(v, estadoVertice, vetorPredecessor);
+        return vetorPredecessor;
+    }
+    
+    private void buscaProfundidade (Vertice v, ArrayList <String> estadoVertice, HashMap<Vertice, Vertice> vetorPredecessor){
+        ArrayList <Vertice> lAdj=adj(v);
+        int k=lAdj.size()-1;
+        boolean aux=true;
+        
+        while(k>=0){
+            if(k==0){
+                if (lAdj.get(k) instanceof Vertice==false) {
+                    break;
+                }
+            }
+            for (int index = 0; index < lVertices.size(); index++) {    
+                if(lAdj.get(k)==lVertices.get(index)){          
+                    if(estadoVertice.get(index)=="n_v"){
+                        vetorPredecessor.put(lVertices.get(index), v);
+                        estadoVertice.set(index, "v");
+                        buscaProfundidade(lAdj.get(k), estadoVertice, vetorPredecessor);
+                        k--;
+                        // if(k>0){
+                        //     k--;
+                        // }
+                        // // break;
+                    }
+                }
+            }
+        }
+        // aux=estadoVertice.contains("n_v");
+    }
+    
 }
