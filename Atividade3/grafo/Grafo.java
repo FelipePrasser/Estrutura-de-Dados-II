@@ -147,36 +147,88 @@ public class Grafo{
         
     }
 
-    public Map<Vertice, Map<Integer, Vertice>> prim(Grafo G, Vertice r){
-        Map<Vertice, Map<Integer, Vertice>> tabelaMinimo=new HashMap<>();
-        Map<Integer, Vertice> aux=new HashMap<>();
+    // public Map<Vertice, Map<Integer, Vertice>> prim(Grafo G, Vertice r){
+    //     Map<Vertice, Map<Integer, Vertice>> tabelaMinimo=new HashMap<>();
+    //     Map<Integer, Vertice> aux=new HashMap<>();
+    //     aux.put(0, null);
+    //     tabelaMinimo.put(r, aux);
+    //     ArrayList <Vertice> lVerticeUtilizando=new ArrayList<>();
+    //     lVerticeUtilizando.add(r);
+    //     ArrayList <Vertice> lVertAdj=new ArrayList<>();
+    //     ArrayList <Aresta> lArestVert=new ArrayList<>();
+    //     ArrayList <Integer> lValorAresta=new ArrayList<>();
+    
+        
+    //     while (lVerticeUtilizando.size() < lVertices.size()) {
+    //         Vertice v = lVerticeUtilizando.get(lVerticeUtilizando.size() - 1);
+    //         lVertAdj.clear();
+    //         lVertAdj = adj(v);
+        
+    //         // Inicializar com um valor grande para garantir que o primeiro valor seja menor
+    //         int menorValor = Integer.MAX_VALUE;
+    //         Aresta arestaEscolhida = null;
+        
+    //         for (int i = 0; i < lVertAdj.size(); i++) {
+    //             Aresta aresta = getA(v, lVertAdj.get(i));
+    //             int valorAresta = aresta.getValor();
+        
+    //             // Verificar se o valor da aresta é menor que o menor valor encontrado até agora
+    //             if (valorAresta < menorValor) {
+    //                 menorValor = valorAresta;
+    //                 arestaEscolhida = aresta;
+    //             }
+    //         }
+        
+    //         if (arestaEscolhida != null) {
+    //             lVerticeUtilizando.add(v);
+    //             aux.clear();
+    //             aux.put(menorValor, oposto(v, arestaEscolhida));
+    //             tabelaMinimo.put(v, aux);
+    //             System.out.println(tabelaMinimo);
+    //             aux.clear();
+    //             v = oposto(v, arestaEscolhida);
+    //         }
+    //     }
+
+    //     return tabelaMinimo;
+    // }
+    public Map<Vertice, Map<Integer, Vertice>> prim(Grafo G, Vertice r) {
+        Map<Vertice, Map<Integer, Vertice>> tabelaMinimo = new HashMap<>();
+        Map<Integer, Vertice> aux = new HashMap<>();
         aux.put(0, null);
         tabelaMinimo.put(r, aux);
-        ArrayList <Vertice> lVerticeUtilizando=new ArrayList<>();
-        lVerticeUtilizando.add(r);
-        ArrayList <Vertice> lVertAdj=new ArrayList<>();
-        ArrayList <Aresta> lArestVert=new ArrayList<>();
-        ArrayList <Integer> lValorAresta=new ArrayList<>();
     
-        while(lVerticeUtilizando.size()<=lVertices.size()){
-            Vertice v=lVerticeUtilizando.get(lVerticeUtilizando.size()-1);
-            lVertAdj=adj(v);
+        ArrayList<Vertice> lVerticeUtilizando = new ArrayList<>();
+        lVerticeUtilizando.add(r);
+    
+        while (lVerticeUtilizando.size() < G.getlVertices().size()) {
+            Vertice v = lVerticeUtilizando.get(lVerticeUtilizando.size() - 1);
+            ArrayList<Vertice> lVertAdj = adj(v);
+    
+            int menorValor = Integer.MAX_VALUE;
+            Aresta arestaEscolhida = null;
+            Vertice w = null;
+    
             for (int i = 0; i < lVertAdj.size(); i++) {
-                lArestVert.add(getA(v, lVertAdj.get(i)));
-                lValorAresta.add(lArestVert.get(i).getValor());
-            }
-            for (int index = lValorAresta.size(); index >=0; index--) {
-                if (index-1>=0) {
-                    if(lValorAresta.get(index)<lValorAresta.get(index-1)){
-                        lArestVert.remove(index);
-                    }if(lValorAresta.get(index)>lValorAresta.get(index-1)){
-                        lArestVert.remove(index);
-                    }
+                Vertice adjacente = lVertAdj.get(i);
+                Aresta aresta = getA(v, adjacente);
+                int valorAresta = aresta.getValor();
+    
+                if (!lVerticeUtilizando.contains(adjacente) && valorAresta < menorValor) {
+                    menorValor = valorAresta;
+                    arestaEscolhida = aresta;
+                    w = adjacente;
                 }
-                
+            }
+    
+            if (arestaEscolhida != null) {
+                lVerticeUtilizando.add(w);
+                aux = new HashMap<>();
+                aux.put(menorValor, w);
+                tabelaMinimo.put(v, aux);
             }
         }
-
-        return;
+    
+        return tabelaMinimo;
     }
 }

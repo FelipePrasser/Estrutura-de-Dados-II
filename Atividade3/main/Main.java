@@ -14,13 +14,15 @@ public class Main{
 
         ArrayList<Vertice> lVertices=grafo.getlVertices();
 
-        grafo.insereA(lVertices.get(0), lVertices.get(0), 10);
-        grafo.insereA(lVertices.get(0), lVertices.get(1), 5);
+        grafo.insereA(lVertices.get(0), lVertices.get(1), 10);
+        grafo.insereA(lVertices.get(0), lVertices.get(2), 5);
+        grafo.insereA(lVertices.get(1), lVertices.get(2), 2);
 
-        System.out.println(grafo.getTamanho());
-        System.out.println(grafo.vertices());
-        System.out.println(grafo.arestas());
-        grafo.removeA(grafo.getlArestas().get(0));
-        System.out.println(grafo.getTamanho());
+        System.out.println(grafo.prim(grafo, lVertices.get(0)));
+        // System.out.println(grafo.getTamanho());
+        // System.out.println(grafo.vertices());
+        // System.out.println(grafo.arestas());
+        // grafo.removeA(grafo.getlArestas().get(0));
+        // System.out.println(grafo.getTamanho());
     }
 }
